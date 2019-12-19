@@ -9,30 +9,26 @@ import './App.scss';
 import axios from 'axios';
 import toggleFeature from './Utilities/unleash';
 
+async function registerUnleash() {
+    let registerURL = 'http://localhost:4242/api/client/register';
+    axios.post(registerURL, {
+        appName: 'tester',
+        instanceId: 'test',
+        strategies: [ 'default', 'userWithId', 'accountWithId' ],
+        started: new Date().toISOString(),
+        interval: 1000
+    }).then(response => {
+        console.log('Unleash server registered');
+    }).catch(error => {
+        console.log('Error during register:', error);
+    });
+}
+
 class App extends Component {
 
     async componentDidMount () {
         insights.chrome.init();
-        //let urlForHelloFlag = 'http://localhost:4242/api/client/features';
-        // axios.get(urlForHelloFlag, {
-        //     headers: {
-        //         'Access-Control-Allow-Origin': '*'
-        //     }
-        // })
-        // .then(response =>{
-        //     console.log('Bah...', response.data);
-        // })
-        // .catch(error =>{
-        //     console.log(error);
-        // });
-        // let featureHello = toggleFeature('hello');
-        // featureHello.then(response => {
-        //     if (response) {
-        //         console.log(response);
-        //         document.getElementById('defaultStrat').style.color = 'brown';
-        //     }
-        // });
-
+        registerUnleash();
         this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
     }
 

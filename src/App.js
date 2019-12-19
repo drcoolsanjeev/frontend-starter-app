@@ -12,10 +12,6 @@ class App extends Component {
 
     componentDidMount () {
         insights.chrome.init();
-        // TODO change this to your appname
-        // TODO should the sample app webpack just rewrite this automatically?
-        insights.chrome.identifyApp('fflag testing');
-
         // axios.get('https://dog.ceo/api/breeds/image/random')
         // .then(response => {
         //     console.log(response.data);
@@ -23,15 +19,17 @@ class App extends Component {
         // .catch(error => {
         //     console.log(error);
         // });
-        let urlForHelloFlag = 'http://unleash-server-unleash-test.5a9f.insights-dev.openshiftapps.com/api/client/features/hello';
+        // let urlForHelloFlag = 'http://unleash-server-unleash-test.5a9f.insights-dev.openshiftapps.com/api/client/features/hello';
+        let urlForHelloFlag = 'http://localhost:4242/api/client/features';
         axios.get(urlForHelloFlag, {
             headers: {
-                'Access-Control-Allow-Origin': 'http://unleash-server-unleash-test.5a9f.insights-dev.openshiftapps.com'
-                //'Content-Security-Policy': 'upgrade-insecure-requests'
+                //Authorization: 'abc123',
+                'Access-Control-Allow-Origin': '*',
+                //'Content-Securiy-Policy': 'upgrade-insecure-requests'
             }
         })
-        .then(respone =>{
-            console.log(respone);
+        .then(response =>{
+            console.log('Bah...', response.data);
         })
         .catch(error =>{
             console.log(error);

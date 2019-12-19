@@ -8,33 +8,26 @@ import { Routes } from './Routes';
 import './App.scss';
 import axios from 'axios';
 
+async function registerUnleash() {
+    let registerURL = 'http://localhost:4242/api/client/register';
+    axios.post(registerURL, {
+        appName: 'tester',
+        instanceId: 'test',
+        strategies: [ 'default', 'userWithId', 'accountWithId' ],
+        started: new Date().toISOString(),
+        interval: 1000
+    }).then(response => {
+        console.log('Unleash server registered');
+    }).catch(error => {
+        console.log('Error during register:', error);
+    });
+}
+
 class App extends Component {
 
     componentDidMount () {
         insights.chrome.init();
-        // axios.get('https://dog.ceo/api/breeds/image/random')
-        // .then(response => {
-        //     console.log(response.data);
-        // })
-        // .catch(error => {
-        //     console.log(error);
-        // });
-        // let urlForHelloFlag = 'http://unleash-server-unleash-test.5a9f.insights-dev.openshiftapps.com/api/client/features/hello';
-        let urlForHelloFlag = 'http://localhost:4242/api/client/features';
-        axios.get(urlForHelloFlag, {
-            headers: {
-                //Authorization: 'abc123',
-                'Access-Control-Allow-Origin': '*',
-                //'Content-Securiy-Policy': 'upgrade-insecure-requests'
-            }
-        })
-        .then(response =>{
-            console.log('Bah...', response.data);
-        })
-        .catch(error =>{
-            console.log(error);
-        });
-
+        registerUnleash();
         this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
     }
 

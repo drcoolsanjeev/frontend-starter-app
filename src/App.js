@@ -7,33 +7,31 @@ import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
 import axios from 'axios';
+import toggleFeature from './Utilities/unleash';
 
 class App extends Component {
 
-    componentDidMount () {
+    async componentDidMount () {
         insights.chrome.init();
-        // axios.get('https://dog.ceo/api/breeds/image/random')
-        // .then(response => {
-        //     console.log(response.data);
+        //let urlForHelloFlag = 'http://localhost:4242/api/client/features';
+        // axios.get(urlForHelloFlag, {
+        //     headers: {
+        //         'Access-Control-Allow-Origin': '*'
+        //     }
         // })
-        // .catch(error => {
+        // .then(response =>{
+        //     console.log('Bah...', response.data);
+        // })
+        // .catch(error =>{
         //     console.log(error);
         // });
-        // let urlForHelloFlag = 'http://unleash-server-unleash-test.5a9f.insights-dev.openshiftapps.com/api/client/features/hello';
-        let urlForHelloFlag = 'http://localhost:4242/api/client/features';
-        axios.get(urlForHelloFlag, {
-            headers: {
-                //Authorization: 'abc123',
-                'Access-Control-Allow-Origin': '*',
-                //'Content-Securiy-Policy': 'upgrade-insecure-requests'
-            }
-        })
-        .then(response =>{
-            console.log('Bah...', response.data);
-        })
-        .catch(error =>{
-            console.log(error);
-        });
+        // let featureHello = toggleFeature('hello');
+        // featureHello.then(response => {
+        //     if (response) {
+        //         console.log(response);
+        //         document.getElementById('defaultStrat').style.color = 'brown';
+        //     }
+        // });
 
         this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
     }

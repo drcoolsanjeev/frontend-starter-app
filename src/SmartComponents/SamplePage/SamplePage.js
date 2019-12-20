@@ -33,8 +33,8 @@ class SamplePage extends Component {
                   parameters: { data: null } 
                 }]
             },
-            userWithId: 345,
-            accountWithId: 1
+            userWithId: 45,
+            accountWithId: 0
         };
     }
 
@@ -58,6 +58,8 @@ class SamplePage extends Component {
                     let keys = Object.keys(strategy.parameters)
                     if (strategy.parameters[keys[0]].includes(this.state[name[0]])) {
                         buttons.push(<Button variant='primary'> Unleash Feature Enabled for { strategy.name } { this.state[name[0]] }</Button>);
+                    }else{
+                        buttons.push(<Button variant='primary'> Unleash Feature Not Enabled for { strategy.name } { this.state[name[0]] }</Button>);
                     }
 
                 }

@@ -24,27 +24,48 @@ const SampleComponent = asyncComponent(() => import('../../PresentationalCompone
 class SamplePage extends Component {
     constructor(props) {
         super(props);
-        this.state = { featureHello: false };
+        this.state = { 
+            feature: {
+                name: null,
+                enabled: false,
+                strategies: [{
+                  name: null,
+                  parameters: { data: null } 
+                }]
+            },
+            userWithId: 345,
+            accountWithId: 1
+        };
     }
 
     async componentDidMount() {
-        await checkFeature('hello').then(response => {
+        await checkFeature('multiStrat').then(response => {
+            console.log(response)
             this.setState({
-                featureHello: response
+                feature: response
             });
         })
-
-        //console.log('33', Hello);
     }
+    createButtons(){
+        let buttons = [];
+        const { feature, userWithId, accountWithId } = this.state
+        if(feature.enabled === true){
+            buttons.push(<Button variant='primary'> Unleash Feature Enabled </Button>);
+            feature.strategies.map((strategy) => {
+                if (strategy.name.includes('Id')){
+                    let name = []
+                    name.push(strategy.name)
+                    let keys = Object.keys(strategy.parameters)
+                    if (strategy.parameters[keys[0]].includes(this.state[name[0]])) {
+                        buttons.push(<Button variant='primary'> Unleash Feature Enabled for { strategy.name } { this.state[name[0]] }</Button>);
+                    }
 
-
-
-    createButton1(){
-        if(this.state.featureHello === true){
-            return <Button variant='primary' id='defaultStrat'> Unleash Feature Enabled </Button>;
+                }
+            })
         } else{
-            return <Button variant='primary' id='defaultStrat'> Unleash Feauture not Enabled </Button>;
+            buttons.push(<Button variant='primary'> Unleash Feauture not Enabled </Button>);
         }
+        return buttons;
 
     }
 
@@ -61,10 +82,16 @@ class SamplePage extends Component {
                     <h1> Cards </h1>
                     <h1> Buttons </h1>
                     <Section type='button-group'>
-                        { this.createButton1() }
-                        <Button variant='secondary'> Unleash-by AccountID </Button>
-                        <Button variant='tertiary'> Unleash-by UserID </Button>
-                        { /* <Button variant='danger'> PF-Next Danger Button </Button> */ }
+                        { this.createButtons().map( button => {
+                           return (
+                               <React.Fragment>
+                                    { button }
+                                </React.Fragment>
+                           );
+                        }) }
+                        {/* <Button variant='secondary'> Unleash-by AccountID </Button>
+                        <Button variant='tertiary'> Unleash-by UserID </Button> */}
+                        <Button variant='danger'> PF-Next Danger Button </Button>
                     </Section>
                 </Main>
             </React.Fragment>

@@ -10,8 +10,8 @@ async function checkFeature(feature) {
         }
     })
     .then(response => {
-        console.log(feature, 'data:', response.data);
-        result = response.data.enabled; // TODO: this won't work with multiple strategies
+        //console.log(feature, 'data:', response.data);
+        result = response.data; // TODO: this won't work with multiple strategies
         console.log('unleash.js:', result);
         // this.setState({
         //     feature: response

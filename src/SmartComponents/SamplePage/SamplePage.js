@@ -33,8 +33,8 @@ class SamplePage extends Component {
                   parameters: { data: null } 
                 }]
             },
-            userWithId: 45,
-            accountWithId: 0
+            userWithId: 45, //345 for accepted user
+            accountWithId: 0 //1 for accepted account
         };
     }
 

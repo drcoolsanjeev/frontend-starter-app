@@ -3,8 +3,8 @@ import axios from 'axios';
 
 async function checkFeature(feature) {
     let url = 'http://localhost:4242/api/client/features/';
-    let result = false;
-    axios.get(url + feature, {
+    let result;
+    await axios.get(url + feature, {
         headers: {
             'Access-Control-Allow-Origin': '*'
         }
@@ -13,6 +13,9 @@ async function checkFeature(feature) {
         console.log(feature, 'data:', response.data);
         result = response.data.enabled; // TODO: this won't work with multiple strategies
         console.log('unleash.js:', result);
+        // this.setState({
+        //     feature: response
+        // });
     })
     .catch(error => {
         console.log(error);

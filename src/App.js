@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { Routes } from './Routes';
 import './App.scss';
 import axios from 'axios';
-import toggleFeature from './Utilities/unleash';
 
 async function registerUnleash() {
     let registerURL = 'http://localhost:4242/api/client/register';

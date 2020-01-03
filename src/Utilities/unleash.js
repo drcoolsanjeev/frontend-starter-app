@@ -3,19 +3,37 @@ import axios from 'axios';
 
 async function checkFeature(feature) {
     let url = 'http://localhost:4242/api/client/features/';
-    let result;
+    let result = false;
     await axios.get(url + feature, {
         headers: {
             'Access-Control-Allow-Origin': '*'
         }
     })
     .then(response => {
-        //console.log(feature, 'data:', response.data);
-        result = response.data; // TODO: this won't work with multiple strategies
-        console.log('unleash.js:', result);
-        // this.setState({
-        //     feature: response
-        // });
+        const thisUserId = '100';
+        const thisAccountId = '1';
+        console.log('unleash.js:', response.data);
+        if (response.data) {
+            if (response.data.enabled) {
+                response.data.strategies.forEach(s => {
+                    if (s.name === 'default') {
+                        result = true;
+                    } else if (s.name === 'userWithId') {
+                        s.parameters.userIds.split(',').forEach(userId => {
+                            if (userId === thisUserId) {
+                                result = true;
+                            }
+                        });
+                    } else if (s.name === 'accountWithId') {
+                        s.parameters.accountIds.split(',').forEach(accountId => {
+                            if (accountId === thisAccountId) {
+                                result = true;
+                            }
+                        });
+                    }
+                });
+            }
+        }
     })
     .catch(error => {
         console.log(error);

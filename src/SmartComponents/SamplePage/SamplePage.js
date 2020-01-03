@@ -25,47 +25,41 @@ class SamplePage extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            feature: {
-                name: null,
-                enabled: false,
-                strategies: [{
-                  name: null,
-                  parameters: { data: null } 
-                }]
-            },
-            userWithId: 45, //345 for accepted user
-            accountWithId: 0 //1 for accepted account
+            userButton: false,
+            accountButton: false,
+            gaButton: false,
         };
     }
 
     async componentDidMount() {
-        await checkFeature('multiStrat').then(response => {
-            console.log(response)
+        await checkFeature('user-feature').then(userResponse => {
             this.setState({
-                feature: response
+                userButton: userResponse
             });
-        })
+        });
+        await checkFeature('account-feature').then(accountResponse => {
+            this.setState({
+                accountButton: accountResponse
+            });
+        });
+        await checkFeature('released-feature').then(gaResponse => {
+            this.setState({
+                gaButton: gaResponse
+            });
+        });
     }
+
     createButtons(){
         let buttons = [];
-        const { feature, userWithId, accountWithId } = this.state
-        if(feature.enabled === true){
-            buttons.push(<Button variant='primary'> Unleash Feature Enabled </Button>);
-            feature.strategies.map((strategy) => {
-                if (strategy.name.includes('Id')){
-                    let name = []
-                    name.push(strategy.name)
-                    let keys = Object.keys(strategy.parameters)
-                    if (strategy.parameters[keys[0]].includes(this.state[name[0]])) {
-                        buttons.push(<Button variant='primary'> Unleash Feature Enabled for { strategy.name } { this.state[name[0]] }</Button>);
-                    }else{
-                        buttons.push(<Button variant='primary'> Unleash Feature Not Enabled for { strategy.name } { this.state[name[0]] }</Button>);
-                    }
-
-                }
-            })
-        } else{
-            buttons.push(<Button variant='primary'> Unleash Feauture not Enabled </Button>);
+        const { userButton, accountButton, gaButton } = this.state
+        if (userButton === true){
+            buttons.push(<Button variant='primary'> User Button Enabled </Button>);
+        }
+        if (accountButton === true) {
+            buttons.push(<Button variant='secondary'> Account Button Enabled </Button>);
+        }
+        if (gaButton === true) {
+            buttons.push(<Button variant='tertiary'> GA release Button Enabled </Button>);
         }
         return buttons;
 
@@ -91,9 +85,6 @@ class SamplePage extends Component {
                                 </React.Fragment>
                            );
                         }) }
-                        {/* <Button variant='secondary'> Unleash-by AccountID </Button>
-                        <Button variant='tertiary'> Unleash-by UserID </Button> */}
-                        <Button variant='danger'> PF-Next Danger Button </Button>
                     </Section>
                 </Main>
             </React.Fragment>

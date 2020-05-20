@@ -19,10 +19,15 @@ import some from 'lodash/some';
  *
  */
 const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './SmartComponents/SamplePage/SamplePage'));
-const Rules = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './PresentationalComponents/Rules/ListRules'));
+const Inventory = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './SmartComponents/Inventory/InventorySlave'));
+const InventoryMaster = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './SmartComponents/Inventory/InventoryMaster'));
+const InventoryDetail = asyncComponent(() => import(/* webpackChunkName: "Rules" */ './SmartComponents/Inventory/InventoryDetail'));
 const paths = {
     samplepage: '/samplepage',
-    rules: '/rules'
+    rules: '/detail',
+    inventory: '/inventory',
+    inventoryDetail: '/inventory/:inventoryId',
+    inventoryMasterDetail: '/detail/:inventoryId'
 };
 
 type Props = {
@@ -57,7 +62,10 @@ export const Routes = (props: Props) => {
     return (
         <Switch>
             <InsightsRoute path={ paths.samplepage } component={ SamplePage } rootClass='samplepage'/>
-            <InsightsRoute path={ paths.rules } component={ Rules } rootClass='rules'/>
+            <InsightsRoute exact path={ paths.rules } component={ InventoryMaster } rootClass='rules'/>
+            <InsightsRoute exact path={ paths.inventory } component={ Inventory } rootClass='inventory'/>
+            <InsightsRoute path={ paths.inventoryDetail } component={ InventoryDetail } rootClass='inventory'/>
+            <InsightsRoute path={ paths.inventoryMasterDetail } component={ InventoryDetail } rootClass='inventory'/>
 
             { /* Finally, catch all unmatched routes */ }
             <Route render={ () => some(paths, p => p === path) ? null : (<Redirect to={ paths.samplepage }/>) }/>

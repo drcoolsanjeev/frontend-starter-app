@@ -11,9 +11,32 @@ class App extends Component {
         insights.chrome.init();
         // TODO change this to your appname
         // TODO should the sample app webpack just rewrite this automatically?
-        insights.chrome.identifyApp('insights');
+        if (location.pathname.includes('starter-second')) {
+            insights.chrome.identifyApp('starter-second');
+        } else if (location.pathname.includes('starter-third')) {
+            insights.chrome.identifyApp('starter-third');
+        } else {
+            insights.chrome.identifyApp('starter').then(() => {
+                // Do something in here
+                if (location.pathname.includes('starter/detail')) {
+                    insights.chrome.appNavClick({ id: 'starter-detail' });
+                } else if (location.pathname.includes('starter/inventory')) {
+                    insights.chrome.appNavClick({ id: 'inventory' });
+                }
+            });
+        }
 
-        this.appNav = insights.chrome.on('APP_NAVIGATION', event => this.props.history.push(`/${event.navId}`));
+        // event.domEvent event.navId
+        this.appNav = insights.chrome.on('APP_NAVIGATION', (event) => {
+
+            if (event.domEvent) {
+                if ([ 'starter-detail' ].includes(event.navId)) {
+                    this.props.history.push(`/detail`);
+                } else {
+                    this.props.history.push(`/${event.navId}`);
+                }
+            }
+        });
     }
 
     componentWillUnmount () {

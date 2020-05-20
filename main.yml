@@ -1,0 +1,59 @@
+starter: # ID
+  title: Starter # Fallback title
+  top_level: true # Indicating that this is bundle
+  frontend: # Required to show navigation
+    title: Sample bundle name # Bundle name
+    paths: # Generates redirects
+      - /starter
+    sub_apps: # Navigation has to have at least one bundle
+      - id: starter # Each app has to have ID
+        title: Some path # App title shown in navigation
+        default: true # Indicates first redirect
+        group: starter # Must match id
+      - id: starter-detail
+        group: starter # Must match id
+        reload: starter/detail
+        permissions:
+          method: isOrgAdmin
+      - id: inventory
+        title: Inventory # App title shown in navigation
+        group: starter # Must match id
+        reload: starter/inventory
+      - id: starter-second
+      - id: starter-third
+
+
+## Navigation without refresh
+
+starter-detail: # ID
+ permissions:
+  method: isEntitled
+  args:
+    - insights
+ frontend: # Required to show navigation
+   title: Sample name
+
+
+## Navigation with refresh
+
+starter-second: # ID
+ frontend: # Required to show navigation
+   title: Will redirect # Bundle name
+
+
+## Two level navigation
+
+starter-third: # ID
+#  permissions:
+#   method: hasPermissions
+#   args:
+#     - [cost-management:*:*]
+ frontend: # Required to show navigation
+   title: Multiple items
+   sub_apps: # Navigation has to have at least one bundle
+      - id: '' # Each app has to have ID
+        title: Some path # App title shown in navigation
+        permissions:
+          method: isOrgAdmin
+      - id: detail
+        title: Some text

@@ -4,6 +4,12 @@
 
 React.js starter app for Red Hat Insights products that includes Patternfly 3 and Patternfly Next.
 
+# Inventory example
+
+This is a specific example of how to use inventory in 2 versions, you have to apply changes in `main.yml` to cloud-services-config in order to properly see the navigation.
+
+You check it in [cloud-services-config#testing-your-changes-locally](https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally) to see how to apply local changes to this config.
+
 ## Getting Started
 
 There is a [comprehensive quick start guide in the Storybook Documentation](https://github.com/RedHatInsights/insights-frontend-storybook/blob/master/src/docs/welcome/quickStart/DOC.md) to setting up an Insights environment complete with:

@@ -1,5 +1,4 @@
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 import React from 'react';
 import asyncComponent from './Utilities/asyncComponent';
